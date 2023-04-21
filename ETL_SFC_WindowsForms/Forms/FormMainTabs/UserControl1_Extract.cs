@@ -145,9 +145,9 @@ namespace ETL_SFC_WindowsForms
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TabPage page = tabControl1.SelectedTab;
-            DataGridView datagridView = (DataGridView)page.Controls[0];
-            toolStripStatusCountRows.Text = $"Anzahl Zeilen: {datagridView.Rows.Count}";
+            //TabPage page = tabControl1.SelectedTab;
+            //DataGridView datagridView = (DataGridView)page.Controls[0];
+            //toolStripStatusCountRows.Text = $"Anzahl Zeilen: {datagridView.Rows.Count}";
         }
     }
 }
