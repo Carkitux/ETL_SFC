@@ -61,12 +61,12 @@ namespace ETL_SFC_WindowsForms.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
         /// </summary>
-        internal static System.Drawing.Bitmap Bild1 {
+        internal static System.Drawing.Icon ETL_SFC__Logo_x64 {
             get {
-                object obj = ResourceManager.GetObject("Bild1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("ETL_SFC__Logo_x64", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

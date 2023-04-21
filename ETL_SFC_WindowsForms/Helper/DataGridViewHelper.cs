@@ -37,6 +37,8 @@ namespace ETL_SFC_WindowsForms
                 }
                 dataGridView.Rows.Add(dataRow);
             }
+
+            dataGridView.AutoSizeColumnsMode= DataGridViewAutoSizeColumnsMode.AllCells;
         }
     }
 }

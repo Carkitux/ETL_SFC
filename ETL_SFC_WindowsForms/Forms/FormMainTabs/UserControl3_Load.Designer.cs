@@ -41,10 +41,12 @@
             // 
             // comboBox_Export
             // 
+            this.comboBox_Export.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.comboBox_Export.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox_Export.FormattingEnabled = true;
             this.comboBox_Export.Location = new System.Drawing.Point(133, 14);
             this.comboBox_Export.Name = "comboBox_Export";
-            this.comboBox_Export.Size = new System.Drawing.Size(101, 23);
+            this.comboBox_Export.Size = new System.Drawing.Size(127, 23);
             this.comboBox_Export.TabIndex = 1;
             this.comboBox_Export.Text = "Zielformat";
             // 

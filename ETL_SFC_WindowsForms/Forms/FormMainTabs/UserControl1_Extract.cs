@@ -19,8 +19,6 @@ namespace ETL_SFC_WindowsForms
         public UserControl1_Extract()
         {
             InitializeComponent();
-
-            Refresh();
         }
 
         private void button_import_Click(object sender, EventArgs e)
@@ -52,7 +50,18 @@ namespace ETL_SFC_WindowsForms
             switch (dateityp)
             {
                 case "csv":
-                    CSV.LoadFromCSV(openFileDialog1.FileName, ";", true);
+                    using (var formDialog = new FormDialog_CSVImport())
+                    {
+                        formDialog.FileName = openFileDialog1.FileName;
+                        if (formDialog.ShowDialog(this) == DialogResult.OK)
+                        {
+                            CSV.LoadFromCSV(openFileDialog1.FileName, formDialog.Seperator, formDialog.HasHeader);
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
                     break;
                 case "json":
                     JSON.LoadFromJson(openFileDialog1.FileName);
@@ -71,7 +80,7 @@ namespace ETL_SFC_WindowsForms
 
         public override void Refresh()
         {
-            base.Refresh();
+            base.Refresh();            
 
             foreach (var stagingObject in StagingArea.StagingObjects)
             {
@@ -90,6 +99,11 @@ namespace ETL_SFC_WindowsForms
                 // Erstellt die Spalten und befüllt die Tabelle
                 DataGridViewHelper.UpdateData(dataGridView, stagingObject);
             }
+
+            if (tabControl1.TabPages.Count == 0)
+                button_ImportDelete.Enabled = false;
+            else
+                button_ImportDelete.Enabled = true;
         }
 
         private void CreateTabePage(TabControl tabControl, StagingObject stagingObject)
@@ -106,6 +120,34 @@ namespace ETL_SFC_WindowsForms
             TabPage tabPage = new TabPage();
             tabPage.Text = stagingObject.FileName;
             tabControl.TabPages.Add(tabPage);
+        }
+
+        private void button_ImportDelete_Click(object sender, EventArgs e)
+        {
+            StagingObject stagingObject = StagingArea.StagingObjects.Where(x => x.FileName == tabControl1.SelectedTab.Text).FirstOrDefault();
+
+            if (stagingObject.Attribute.Where(x => x.WurdeTransferiert == true).Count() >= 1)
+            {
+                MessageBox.Show("Von dieser Tabelle wurden bereits Daten transformiert.");
+                return;
+            }
+
+            StagingArea.StagingObjects.Remove(stagingObject);
+            tabControl1.TabPages.Remove(tabControl1.SelectedTab);
+
+            Refresh();
+        }
+
+        private void UserControl1_Extract_Load(object sender, EventArgs e)
+        {
+            Refresh();
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabPage page = tabControl1.SelectedTab;
+            DataGridView datagridView = (DataGridView)page.Controls[0];
+            toolStripStatusCountRows.Text = $"Anzahl Zeilen: {datagridView.Rows.Count}";
         }
     }
 }

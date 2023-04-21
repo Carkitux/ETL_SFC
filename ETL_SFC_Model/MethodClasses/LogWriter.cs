@@ -15,6 +15,7 @@ namespace ETL_SFC_Model
     {
         private static string logPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + "Logs";
         private static string logFile = $"Log {DateTime.Now.GetDateTimeFormats()[2]}.txt";
+        public static bool SkipLogging = false;
 
         static LogWriter()
         {
@@ -59,6 +60,11 @@ namespace ETL_SFC_Model
 
         public static void Log(string logMessage)
         {
+            if (SkipLogging)
+            {
+                return;
+            }
+
             WriteInFile(logMessage);
         }
 

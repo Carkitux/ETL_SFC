@@ -7,39 +7,92 @@ using System.IO;
 using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace ETL_SFC_Model
 {
     public class CSV
     {
-        public static StagingObject LoadFromCSV(string path, string separator, bool hasHeader)
+        public static void LoadFromCSV(string path, string separator, bool hasHeader)
         {
             LogWriter.Log($"Step Extract - Startet Export CSV: \"{path}\"");
 
             // Liest alle Zeilen der CSV Datei in einen String ein
-            var lines = File.ReadLines(path, Encoding.UTF8);
+            var lines = File.ReadLines(path);
 
             // Lesen des Dateinamens aus dem übergebenen Dateipfad
-            var dateipfad = path.Split('\\');
-            var dateiname = dateipfad[dateipfad.Length - 1];
+            string fileName = DateitypenHelper.GetFileName(path);
 
             // Erstellen des neuen StagingObjects
-            StagingObject stagingObject = new StagingObject(dateiname);
+            StagingObject stagingObject = new StagingObject(fileName);
 
+            // Befüllt das StagingObject mit allen Attributen und Zeilen der CSV
+            CSVHeader(separator, hasHeader, lines, stagingObject);
+            CSVLines(separator, hasHeader, lines, fileName, stagingObject);
+
+            // Fügt das Staging Object unserer global verfügbaren Staging Area für spätere Benutzung hinzu
+            StagingArea.StagingObjects.Add(stagingObject);
+        }
+
+        public static StagingObject LoadTempFromCSV(string path, string separator, bool hasHeader, int lineCount)
+        {
+            // Logging ausschalten, da wir nur ein temporäes StagingObject erstellen für Userfeedback
+            LogWriter.SkipLogging = true;
+
+            // Liest lediglich X Zeilen der CSV Datei in einen String ein
+            var lines = File.ReadLines(path);
+            lines = lines.Reverse().Skip(lines.Count() - lineCount).Reverse();
+
+            // Lesen des Dateinamens aus dem übergebenen Dateipfad
+            string fileName = DateitypenHelper.GetFileName(path);
+
+            // Erstellen des temporären StagingObjects
+            StagingObject tempStagingObject = new StagingObject(fileName);
+
+            // Befüllt das temporäre StagingObject mit allen Attributen und den X Zeilen der CSV
+            CSVHeader(separator, hasHeader, lines, tempStagingObject);
+            CSVLines(separator, hasHeader, lines, fileName, tempStagingObject);
+
+            // Logging wieder anschalten
+            LogWriter.SkipLogging = false;
+
+            // Gibt das temporäre StagingObject zur weiteren Verwendung zurück, da dieses diemsal nicht in die StagingArea integriert wird
+            return tempStagingObject;
+        }
+
+        private static void CSVHeader(string separator, bool hasHeader, IEnumerable<string> lines, StagingObject stagingObject)
+        {
             // Wenn die CSV Datei Header hat, dann werden diese als Attribute im erstellten Staging Object hinterlegt
             // um diese später den einzelnen Daten zuweisen zu können
             if (hasHeader)
             {
                 string[] attribute = new string[0];
                 attribute = lines.First().Replace(separator + " ", separator).Split(separator);
-                lines = lines.Skip(1);
                 foreach (string attribut in attribute)
                 {
                     Attribut newAttribut = new Attribut(attribut, Enums.Datentyp.Unbekannt);
                     stagingObject.Attribute.Add(newAttribut);
                 }
             }
+            // Wenn die CSV Datei keine Header hat, wird für jede Spalte ein Ersatz Attribut erzeugt mit hochzählenden Spaltennamen
+            else
+            {
+                string[] attribute = new string[0];
+                int count = lines.First().Replace(separator + " ", separator).Split(separator).Count();
+                for (int i = 0; i < count; i++)
+                {
+                    Attribut newAttribut = new Attribut($"Spalte{i}", Enums.Datentyp.Unbekannt);
+                    stagingObject.Attribute.Add(newAttribut);
+                }
+            }
+        }
 
+        private static void CSVLines(string separator, bool hasHeader, IEnumerable<string> lines, string dateiname, StagingObject stagingObject)
+        {
+            if (hasHeader)
+            {
+                lines = lines.Skip(1);
+            }
             foreach (var line in lines)
             {
                 // Erstellen eines neuen Datensatzes für jede Zeile der CSV
@@ -72,10 +125,6 @@ namespace ETL_SFC_Model
                 // Fügt den Datensatz dem aktuellem Staging Objekt hinzu
                 stagingObject.Datensaetze.Add(datensatz);
             }
-            // Fügt das Staging Object unserer global verfügabren Staging Area für spätere Benutzung hinzu
-            // und returned das aktuelle Staging Object für eine Verwendung im Frontend
-            StagingArea.StagingObjects.Add(stagingObject);
-            return stagingObject;
         }
 
         public static void CreateCSV(string path)
