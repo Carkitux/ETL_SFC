@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -19,19 +20,24 @@ namespace ETL_SFC_WindowsForms
         public UserControl4_Log()
         {
             InitializeComponent();
-
-            textBoxFileCount.Text = $"Anzahl: {LogWriter.FileCount}";
-            textBoxFileSize.Text = $"Größe: {LogWriter.FileSizeMB} mb";
         }
 
         private void buttonLogOeffnen_Click(object sender, EventArgs e)
         {
-            LogWriter.OpenTxtLogFile();
+            if (!File.Exists(LogWriter.filePath))
+                return;
+            using Process fileopener = new Process();
+            fileopener.StartInfo.FileName = "explorer";
+            fileopener.StartInfo.Arguments = "\"" + LogWriter.filePath + "\"";
+            fileopener.Start();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            LogWriter.OpenExplorerLogPath();
+
+            if (!Directory.Exists(LogWriter.logPath))
+                return;
+            Process.Start("explorer.exe", LogWriter.logPath);
         }
 
         private void UserControl4_Log_Load(object sender, EventArgs e)
@@ -40,6 +46,11 @@ namespace ETL_SFC_WindowsForms
             textBoxLog.Focus();
             textBoxLog.SelectionStart = textBoxLog.Text.Length;
             textBoxLog.ScrollToCaret();
+
+            toolStripStatusLabelPreviewRowCount.Text = $"Preview Zeilen Anzahl: {textBoxLog.Lines.Count()} (max. 1000)";
+            toolStripStatusLabelCurrentLogSize.Text = $"Loggröße: {LogWriter.FileSizeMBCurrent} mb";
+            toolStripStatusLabelLogFileCount.Text = $"Alle Logs Anzahl: {LogWriter.FileCount}";
+            toolStripStatusLabelLogFileSizeSum.Text = $"Alle Logs Größe: {LogWriter.FileSizeMBAll} mb";
         }
     }
 }

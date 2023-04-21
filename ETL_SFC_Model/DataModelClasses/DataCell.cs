@@ -4,19 +4,20 @@ namespace ETL_SFC_Model
 {
     public class DataCell
     {
-        public DataCell(DateRow _datensatz, Attribut _attribut, string _inhalt)
+        public DataCell(DataRow _datensatz, Attribut _attribut, string _inhalt)
         {
-            datensatz = _datensatz;
+            DataRow = _datensatz;
             Attribut = _attribut;
             Inhalt = _inhalt;
-            LogWriter.Log($"Neue SingleData für StagingObject \"{Datensatz.StagingObject}\" und Datensatz \"{Datensatz}\" erstellt");
+
+            LogWriter.Log($"In StagingObject \"{DataRow.StagingObject.FileName}\" in DataRow \"{DataRow.ID}\" : New DataCell \"{Inhalt}\" with Attribut \"{Attribut.Name}\"");
         }
 
-        private DateRow datensatz;
-        public DateRow Datensatz
+        private DataRow dataRow;
+        public DataRow DataRow
         {
-            get { return datensatz; }
-            set { datensatz = value; }
+            get { return dataRow; }
+            set { dataRow = value; }
         }
 
         private Attribut attribut;
@@ -25,7 +26,7 @@ namespace ETL_SFC_Model
             get { return attribut; }
             set
             {
-                if (Datensatz.StagingObject.Attribute.Contains(value))
+                if (DataRow.StagingObject.Attributes.Contains(value))
                 {
                     attribut = value;
                 }

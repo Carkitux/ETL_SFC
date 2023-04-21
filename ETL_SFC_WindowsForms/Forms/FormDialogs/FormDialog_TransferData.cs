@@ -25,7 +25,7 @@ namespace ETL_SFC_WindowsForms
             {
                 comboBox_QuellStObj.Items.Add(item.FileName);
             }
-            foreach (var item in StagingArea.TransformStagingObject.Attribute)
+            foreach (var item in StagingArea.TransformStagingObject.Attributes)
             {
                 comboBox_ZielAttribut.Items.Add(item.Name);
                 comboBox_ZielAttribut2.Items.Add(item.Name);
@@ -90,13 +90,13 @@ namespace ETL_SFC_WindowsForms
 
             foreach (var item in StagingArea.StagingObjects.Where(x => x.FileName == comboBox_QuellStObj.SelectedItem?.ToString()))
             {
-                foreach (var head in item.Attribute.Where(x => x.WurdeTransferiert == false))
+                foreach (var head in item.Attributes.Where(x => x.WurdeTransferiert == false))
                 {
                     listBox_QuellAttribute.Items.Add(item.FileName + " // " + head.Name);
                 }
             }
 
-            foreach (var Attribut in StagingArea.TransformStagingObject.Attribute.Where(x => x.Name == comboBox_ZielAttribut.SelectedItem?.ToString()))
+            foreach (var Attribut in StagingArea.TransformStagingObject.Attributes.Where(x => x.Name == comboBox_ZielAttribut.SelectedItem?.ToString()))
             {
                 foreach (var item in Attribut.WurdeTransferiertVon)
                 {

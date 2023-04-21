@@ -34,6 +34,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -72,7 +73,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 82;
             this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(800, 551);
+            this.dataGridView1.Size = new System.Drawing.Size(800, 529);
             this.dataGridView1.TabIndex = 0;
             // 
             // panel1
@@ -89,11 +90,20 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.dataGridView1);
+            this.panel2.Controls.Add(this.statusStrip1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 49);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(800, 551);
             this.panel2.TabIndex = 2;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 529);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // UserControl3_Load
             // 
@@ -106,6 +116,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -117,5 +128,6 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.StatusStrip statusStrip1;
     }
 }

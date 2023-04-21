@@ -13,18 +13,14 @@ namespace ETL_SFC_Model
 {
     public static class LogWriter
     {
-        private static string logPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + "Logs";
-        private static string logFile = $"Log {DateTime.Now.GetDateTimeFormats()[2]}.txt";
-        public static bool SkipLogging = false;
-
         static LogWriter()
         {
             if (!Directory.Exists(logPath))
                 Directory.CreateDirectory(logPath);
 
-            bool doNewLine = (File.Exists(FilePath));
+            bool doNewLine = (File.Exists(filePath));
 
-            using (StreamWriter textWriter = File.AppendText(FilePath))
+            using (StreamWriter textWriter = File.AppendText(filePath))
             {
                 if (doNewLine)
                     textWriter.WriteLine("");
@@ -33,17 +29,17 @@ namespace ETL_SFC_Model
             }
         }
 
-        public static string FilePath
-        {
-            get { return logPath + "\\" + logFile; }
-        }
+        public static string logPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + "Logs";
+        public static string logFile = $"Log {DateTime.Now.GetDateTimeFormats()[2]} {DateTime.Now.GetHashCode()}.txt";
+        public static string filePath = logPath + "\\" + logFile;
+        public static bool SkipLogging = false;
 
         public static int FileCount
         {
             get { return Directory.GetFiles(logPath).Length; }
         }
 
-        public static float FileSizeMB
+        public static float FileSizeMBAll
         {
             get
             {
@@ -58,6 +54,18 @@ namespace ETL_SFC_Model
             }
         }
 
+        public static float FileSizeMBCurrent
+        {
+            get
+            {
+                float fileSize = 0;
+                FileInfo fileInfo = new FileInfo(filePath);
+                fileSize += (float)fileInfo.Length;
+                fileSize = (float)Math.Round(fileSize / 1024 / 1024, 2);
+                return fileSize;
+            }
+        }
+
         public static void Log(string logMessage)
         {
             if (SkipLogging)
@@ -65,39 +73,60 @@ namespace ETL_SFC_Model
                 return;
             }
 
-            WriteInFile(logMessage);
+            WriteInFile("\t" + DateTime.Now + ": " + logMessage);
+        }
+
+        public static void LogHeader(string logMessage)
+        {
+            if (SkipLogging)
+            {
+                return;
+            }
+
+            logMessage = DateTime.Now + ": " + logMessage;
+            string stringLine = string.Empty;
+            for (int i = 0; i < logMessage.Length; i++)
+            {
+                stringLine += "-";
+            }
+
+            WriteInFile("\t");
+            WriteInFile("\t" + logMessage);
+            WriteInFile("\t" + stringLine);
+        }
+
+        public static void LogFooter(string logMessage)
+        {
+            if (SkipLogging)
+            {
+                return;
+            }
+
+            logMessage = DateTime.Now + ": " + logMessage;
+            string stringLine = string.Empty;
+            for (int i = 0; i < logMessage.Length; i++)
+            {
+                stringLine += "-";
+            }
+
+            WriteInFile("\t" + stringLine);
+            WriteInFile("\t" + logMessage);
+            WriteInFile("\t");
         }
 
         private static void WriteInFile(string logMessage)
         {
-            using (StreamWriter w = File.AppendText(FilePath))
+            using (StreamWriter w = File.AppendText(filePath))
             {
-                w.WriteLine("\t" + DateTime.Now + ": " + logMessage);
+                w.WriteLine(logMessage);
             }
-        }
-
-        public static void OpenExplorerLogPath()
-        {
-            if (!Directory.Exists(logPath))
-                return;
-            Process.Start("explorer.exe", logPath);
-        }
-
-        public static void OpenTxtLogFile()
-        {
-            if (!File.Exists(FilePath))
-                return;
-            using Process fileopener = new Process();
-            fileopener.StartInfo.FileName = "explorer";
-            fileopener.StartInfo.Arguments = "\"" + FilePath + "\"";
-            fileopener.Start();
         }
 
         public static string GetLastLines(int countLastLines)
         {
-            string[] lines = File.ReadLines(FilePath, Encoding.UTF8).ToArray();
+            string[] lines = File.ReadLines(filePath, Encoding.UTF8).ToArray();
             int linesCount = lines.Count();
-            string[] lastLinesReverse = new string[countLastLines];
+
             string lastLines = String.Empty;
 
             if (linesCount < countLastLines)
@@ -105,14 +134,25 @@ namespace ETL_SFC_Model
                 countLastLines = linesCount;
             }
 
+            string[] lastLinesReverse = new string[countLastLines];
+
             for (int i = 1; i <= countLastLines; i++)
             {
                 lastLinesReverse[i - 1] = lines[linesCount - i];
             }
 
+            bool first = true;
             foreach (var item in lastLinesReverse.Reverse())
             {
-                lastLines += item + Environment.NewLine;
+                if (first)
+                {
+                    lastLines += item;
+                    first = false;
+                }
+                else
+                {
+                    lastLines += Environment.NewLine + item;
+                }
             }
 
             return lastLines;

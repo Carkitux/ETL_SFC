@@ -16,7 +16,7 @@ namespace ETL_SFC_WindowsForms
             dataGridView.Rows.Clear();
 
             // Holt sich alle Attribute der Datei und erstellt demnach die Spalten der Tabelle
-            foreach (var attribut in stagingObject.Attribute)
+            foreach (var attribut in stagingObject.Attributes)
             {
                 DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
                 column.HeaderText = attribut.Name;
@@ -26,11 +26,11 @@ namespace ETL_SFC_WindowsForms
             }
 
             // Erstellt nun eine Zeile für jeden Datensatz und ordnet die einzelnen Daten zu
-            foreach (var datensatz in stagingObject.Datensaetze)
+            foreach (var datensatz in stagingObject.DataRows)
             {
-                string[] dataRow = new string[datensatz.SingleDatas.Count];
+                string[] dataRow = new string[datensatz.DataCells.Count];
                 int i = 0;
-                foreach (var singledata in datensatz.SingleDatas)
+                foreach (var singledata in datensatz.DataCells)
                 {
                     dataRow[i] = singledata.Inhalt;
                     i++;

@@ -58,7 +58,7 @@
             // textBoxSeperator
             // 
             this.textBoxSeperator.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.textBoxSeperator.Location = new System.Drawing.Point(557, 20);
+            this.textBoxSeperator.Location = new System.Drawing.Point(566, 20);
             this.textBoxSeperator.Name = "textBoxSeperator";
             this.textBoxSeperator.PlaceholderText = "Trennzeichen";
             this.textBoxSeperator.Size = new System.Drawing.Size(100, 23);
@@ -92,7 +92,7 @@
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(557, 6);
+            this.label2.Location = new System.Drawing.Point(565, 7);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 15);
             this.label2.TabIndex = 4;
@@ -103,7 +103,7 @@
             this.checkBoxHasHeader.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.checkBoxHasHeader.AutoSize = true;
             this.checkBoxHasHeader.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBoxHasHeader.Location = new System.Drawing.Point(672, 15);
+            this.checkBoxHasHeader.Location = new System.Drawing.Point(672, 22);
             this.checkBoxHasHeader.Name = "checkBoxHasHeader";
             this.checkBoxHasHeader.Size = new System.Drawing.Size(116, 19);
             this.checkBoxHasHeader.TabIndex = 3;

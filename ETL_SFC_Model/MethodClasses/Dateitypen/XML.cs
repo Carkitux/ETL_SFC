@@ -28,25 +28,25 @@ namespace ETL_SFC_Model
             foreach (XmlNode node in doc.DocumentElement.ChildNodes)
             {
                 // Erstellen eines neuen Datensatzes für jedes Objekt der XML
-                DateRow d = new DateRow(stagingObject, dateiname, Enums.Quelltyp.XML);
+                DataRow d = new DataRow(stagingObject, dateiname, Enums.Quelltyp.XML);
 
                 foreach (XmlNode node2 in node.ChildNodes)
                 {
-                    Attribut attribut = stagingObject.Attribute.Where(x => x.Name == node2.Name).FirstOrDefault();
+                    Attribut attribut = stagingObject.Attributes.Where(x => x.Name == node2.Name).FirstOrDefault();
                     if (attribut is null)
                     {
-                        Attribut newAttribut = new Attribut(node2.Name, Enums.Datentyp.Unbekannt);
-                        stagingObject.Attribute.Add(newAttribut);
+                        Attribut newAttribut = new Attribut(stagingObject, node2.Name, Enums.Datentyp.Unbekannt);
+                        stagingObject.Attributes.Add(newAttribut);
                         attribut = newAttribut;
                     }
                     DataCell sd = new DataCell(d, attribut, node2.InnerText);
 
                     // Fügt das erstellte SingleData dem Datensatz hinzu
-                    d.SingleDatas.Add(sd);
+                    d.DataCells.Add(sd);
                     //LogWriter.LogWrite(attribut + " " + inhalt);
                 }
                 // Fügt den Datensatz dem aktuellem Staging Objekt hinzu
-                stagingObject.Datensaetze.Add(d);
+                stagingObject.DataRows.Add(d);
             }
             // Fügt das Staging Object unserer global verfügabren Staging Area für spätere Benutzung hinzu
             // und returned das aktuelle Staging Object für eine Verwendung im Frontend
@@ -67,13 +67,13 @@ namespace ETL_SFC_Model
             var root = xmlDocument.CreateElement("vereinsverwaltung");
             xmlDocument.AppendChild(root);
 
-            foreach (var datensatz in stagingObject.Datensaetze)
+            foreach (var datensatz in stagingObject.DataRows)
             {
                 // Erstellen von Xml Elementen für jeden Datensatz.
                 var singleDataList = xmlDocument.CreateElement("mitglied");
 
                 // Hinzufügen der Key-Value-Paare aus jedem Single Data Objekt als XML Element zum mitglied XML Element.
-                foreach (var singleData in datensatz.SingleDatas)
+                foreach (var singleData in datensatz.DataCells)
                 {
                     var singleDataElement = xmlDocument.CreateElement(singleData.Attribut.Name);
                     singleDataElement.InnerText = singleData.Inhalt;

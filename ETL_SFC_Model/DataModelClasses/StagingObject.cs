@@ -9,18 +9,13 @@ namespace ETL_SFC_Model
 {
     public class StagingObject
     {
-        public StagingObject()
-        {
-            datensaetze = new List<DateRow>();
-            attribute = new List<Attribut>();
-            LogWriter.Log($"Neues StagingObject erstellt");
-        }
         public StagingObject(string filename)
         {
             FileName = filename;
-            datensaetze = new List<DateRow>();
-            attribute = new List<Attribut>();
-            LogWriter.Log($"Neues StagingObject \"{filename}\" erstellt");
+            DataRows = new List<DataRow>();
+            Attributes = new List<Attribut>();
+
+            LogWriter.Log($"New StagingObject \"{filename}\"");
         }
 
         private string fileName;
@@ -30,18 +25,18 @@ namespace ETL_SFC_Model
             private set { fileName = value; }
         }
 
-        private List<DateRow> datensaetze;
-        public List<DateRow> Datensaetze
+        private List<DataRow> dataRows;
+        public List<DataRow> DataRows
         {
-            get { return datensaetze; }
-            set { datensaetze = value; }
+            get { return dataRows; }
+            set { dataRows = value; }
         }
 
-        private List<Attribut> attribute;
-        public List<Attribut> Attribute
+        private List<Attribut> attributes;
+        public List<Attribut> Attributes
         {
-            get { return attribute; }
-            set { attribute = value; }
+            get { return attributes; }
+            set { attributes = value; }
         }
     }
 }

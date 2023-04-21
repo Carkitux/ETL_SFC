@@ -25,26 +25,26 @@ namespace ETL_SFC_Model
             foreach (var jsonObject in jsonObjects)
             {
                 // Erstellt einen Datensatz mit einer ID, dem Type der eingelesenen Datei und der Liste der Key Value Paare.
-                DateRow datensatz = new DateRow(stagingObject, dateiname, Enums.Quelltyp.JSON);
+                DataRow datensatz = new DataRow(stagingObject, dateiname, Enums.Quelltyp.JSON);
 
                 // Geht alle Properties eines JSON Objekt Datensatzes durch.
                 foreach (var property in jsonObject.Properties())
                 {
-                    Attribut attribut = stagingObject.Attribute.Where(x => x.Name == property.Name).FirstOrDefault();
+                    Attribut attribut = stagingObject.Attributes.Where(x => x.Name == property.Name).FirstOrDefault();
                     if (attribut is null)
                     {
-                        Attribut newAttribut = new Attribut(property.Name, Enums.Datentyp.Unbekannt);
-                        stagingObject.Attribute.Add(newAttribut);
+                        Attribut newAttribut = new Attribut(stagingObject, property.Name, Enums.Datentyp.Unbekannt);
+                        stagingObject.Attributes.Add(newAttribut);
                         attribut = newAttribut;
                     }
                     // Erstellt ein neues SingleData Objekt
                     DataCell singleData = new DataCell(datensatz, attribut, property.Value.ToString());
 
                     // Fügt das Key Value Paar der Lise hinzu, um so eine Liste mit allen Paaren eines Json Datensatzes zu bekommen
-                    datensatz.SingleDatas.Add(singleData);
+                    datensatz.DataCells.Add(singleData);
                 }
                 //Fügt den Datensatz der datensatz Liste hinzu, um dann eine vollständige Liste mit allen Json Datensätzen aus der .json Datei zu bekommen.
-                stagingObject.Datensaetze.Add(datensatz);
+                stagingObject.DataRows.Add(datensatz);
             }
             // Fügt das Staging Object unserer global verfügabren Staging Area für spätere Benutzung hinzu
             // und returned das aktuelle Staging Object für eine Verwendung im Frontend
@@ -58,10 +58,10 @@ namespace ETL_SFC_Model
             StagingObject stagingObject = StagingArea.StagingObjects[0]; //.Where(x => x.IamTransform).First();
 
             var list = new List<JObject>();
-            foreach (var datensatz in stagingObject.Datensaetze)
+            foreach (var datensatz in stagingObject.DataRows)
             {
                 var jObj = new JObject();
-                foreach (var singleData in datensatz.SingleDatas)
+                foreach (var singleData in datensatz.DataCells)
                 {
                     jObj.Add(new JProperty(singleData.Attribut.Name, singleData.Inhalt));
                 }

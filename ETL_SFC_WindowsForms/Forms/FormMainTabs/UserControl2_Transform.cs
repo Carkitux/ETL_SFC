@@ -19,10 +19,12 @@ namespace ETL_SFC_WindowsForms
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.ColumnHeaderSelect;
             dataGridView1.MultiSelect = false;
+            panel3.Visible = false;
         }
 
         private void button_SpalteHinzufuegen_Click(object sender, EventArgs e)
         {
+            panel3.Visible = true;
             using (var form3 = new FormDialog_SpalteHinzufuegen())
             {
                 if (form3.ShowDialog(this) == DialogResult.OK)
@@ -75,7 +77,7 @@ namespace ETL_SFC_WindowsForms
             dataGridView1.Rows.Clear();
             // Holt sich alle Header der Datei und erstellt demnach die Spalten der Tabelle
             List<string> headers = new List<string>();
-            TransformStObj.Attribute?.ForEach(data => headers.Add(data.Name));
+            TransformStObj.Attributes?.ForEach(data => headers.Add(data.Name));
             foreach (var header in headers.Distinct())
             {
                 DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
@@ -86,11 +88,11 @@ namespace ETL_SFC_WindowsForms
             }
 
             // Erstellt nun eine Zeile für jeden Datensatz und ordnet die einzelnen Daten zu
-            foreach (var datensatz in TransformStObj.Datensaetze)
+            foreach (var datensatz in TransformStObj.DataRows)
             {
-                string[] dataRow = new string[datensatz.SingleDatas.Count];
+                string[] dataRow = new string[datensatz.DataCells.Count];
                 int i = 0;
-                foreach (var singledata in datensatz.SingleDatas)
+                foreach (var singledata in datensatz.DataCells)
                 {
                     dataRow[i] = singledata.Inhalt;
                     i++;

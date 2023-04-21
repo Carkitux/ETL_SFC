@@ -30,56 +30,42 @@
         {
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxFileCount = new System.Windows.Forms.TextBox();
-            this.textBoxFileSize = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.buttonLogOeffnen = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelPreviewRowCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelCurrentLogSize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelLogFileCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelLogFileSizeSum = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxLog
             // 
             this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxLog.Font = new System.Drawing.Font("Consolas", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBoxLog.Location = new System.Drawing.Point(0, 0);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxLog.Size = new System.Drawing.Size(565, 346);
+            this.textBoxLog.Size = new System.Drawing.Size(727, 322);
             this.textBoxLog.TabIndex = 0;
             this.textBoxLog.WordWrap = false;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightGray;
-            this.panel1.Controls.Add(this.textBoxFileCount);
-            this.panel1.Controls.Add(this.textBoxFileSize);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.buttonLogOeffnen);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(565, 49);
+            this.panel1.Size = new System.Drawing.Size(727, 49);
             this.panel1.TabIndex = 1;
-            // 
-            // textBoxFileCount
-            // 
-            this.textBoxFileCount.Dock = System.Windows.Forms.DockStyle.Right;
-            this.textBoxFileCount.Location = new System.Drawing.Point(345, 0);
-            this.textBoxFileCount.Name = "textBoxFileCount";
-            this.textBoxFileCount.ReadOnly = true;
-            this.textBoxFileCount.Size = new System.Drawing.Size(110, 23);
-            this.textBoxFileCount.TabIndex = 4;
-            // 
-            // textBoxFileSize
-            // 
-            this.textBoxFileSize.Dock = System.Windows.Forms.DockStyle.Right;
-            this.textBoxFileSize.Location = new System.Drawing.Point(455, 0);
-            this.textBoxFileSize.Name = "textBoxFileSize";
-            this.textBoxFileSize.ReadOnly = true;
-            this.textBoxFileSize.Size = new System.Drawing.Size(110, 23);
-            this.textBoxFileSize.TabIndex = 3;
             // 
             // button2
             // 
@@ -112,11 +98,60 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.textBoxLog);
+            this.panel2.Controls.Add(this.statusStrip1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 49);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(565, 346);
+            this.panel2.Size = new System.Drawing.Size(727, 346);
             this.panel2.TabIndex = 2;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelPreviewRowCount,
+            this.toolStripStatusLabelCurrentLogSize,
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabelLogFileCount,
+            this.toolStripStatusLabelLogFileSizeSum});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 322);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(727, 24);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabelPreviewRowCount
+            // 
+            this.toolStripStatusLabelPreviewRowCount.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.toolStripStatusLabelPreviewRowCount.Name = "toolStripStatusLabelPreviewRowCount";
+            this.toolStripStatusLabelPreviewRowCount.Size = new System.Drawing.Size(193, 19);
+            this.toolStripStatusLabelPreviewRowCount.Text = "Preview Zeilen Anzahl: (max. 1000)";
+            // 
+            // toolStripStatusLabelCurrentLogSize
+            // 
+            this.toolStripStatusLabelCurrentLogSize.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.toolStripStatusLabelCurrentLogSize.Name = "toolStripStatusLabelCurrentLogSize";
+            this.toolStripStatusLabelCurrentLogSize.Size = new System.Drawing.Size(68, 19);
+            this.toolStripStatusLabelCurrentLogSize.Text = "Loggröße: ";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(212, 19);
+            this.toolStripStatusLabel1.Spring = true;
+            // 
+            // toolStripStatusLabelLogFileCount
+            // 
+            this.toolStripStatusLabelLogFileCount.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.toolStripStatusLabelLogFileCount.Name = "toolStripStatusLabelLogFileCount";
+            this.toolStripStatusLabelLogFileCount.Size = new System.Drawing.Size(102, 19);
+            this.toolStripStatusLabelLogFileCount.Text = "Logdatei Anzahl: ";
+            // 
+            // toolStripStatusLabelLogFileSizeSum
+            // 
+            this.toolStripStatusLabelLogFileSizeSum.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.toolStripStatusLabelLogFileSizeSum.Name = "toolStripStatusLabelLogFileSizeSum";
+            this.toolStripStatusLabelLogFileSizeSum.Size = new System.Drawing.Size(137, 19);
+            this.toolStripStatusLabelLogFileSizeSum.Text = "Gesamtgröße alle Logs: ";
             // 
             // UserControl4_Log
             // 
@@ -125,12 +160,13 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "UserControl4_Log";
-            this.Size = new System.Drawing.Size(565, 395);
+            this.Size = new System.Drawing.Size(727, 395);
             this.Load += new System.EventHandler(this.UserControl4_Log_Load);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -141,7 +177,11 @@
         private System.Windows.Forms.Button buttonLogOeffnen;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBoxFileCount;
-        private System.Windows.Forms.TextBox textBoxFileSize;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelPreviewRowCount;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCurrentLogSize;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelLogFileCount;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelLogFileSizeSum;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }

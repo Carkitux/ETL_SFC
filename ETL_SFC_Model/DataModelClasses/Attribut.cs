@@ -6,11 +6,30 @@ namespace ETL_SFC_Model
 {
     public class Attribut
     {
-        public Attribut(string _name, Enums.Datentyp _datentyp)
+        public Attribut(StagingObject stagingObject, string name, Enums.Datentyp datentyp)
         {
-            name= _name;
-            datentyp= _datentyp;
+            StagingObject = stagingObject;
+            Name = name;
+            Datatyp = datentyp;
+            DataCells = new List<DataCell>();
+            WurdeTransferiert = false;
             WurdeTransferiertVon = new List<Attribut>();
+
+            LogWriter.Log($"In StagingObject \"{StagingObject.FileName}\" : New Attribut \"{Name}\" with Datatyp \"{Datatyp}\"");
+        }
+
+        private StagingObject stagingObject;
+        public StagingObject StagingObject
+        {
+            get { return stagingObject; }
+            set { stagingObject = value; }
+        }
+
+        private List<DataCell> dataCells;
+        public List<DataCell> DataCells
+        {
+            get { return dataCells; }
+            set { dataCells = value; }
         }
 
         private string name;
@@ -20,11 +39,11 @@ namespace ETL_SFC_Model
             set { name = value; }
         }
 
-        private Enums.Datentyp datentyp;
-        public Enums.Datentyp Datentyp
+        private Enums.Datentyp datatyp;
+        public Enums.Datentyp Datatyp
         {
-            get { return datentyp; }
-            set { datentyp = value; }
+            get { return datatyp; }
+            set { datatyp = value; }
         }
 
         private bool wurdeTransferiert;

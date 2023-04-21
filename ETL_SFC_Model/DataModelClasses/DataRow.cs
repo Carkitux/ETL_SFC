@@ -4,27 +4,30 @@ using static ETL_SFC_Model.Enums;
 
 namespace ETL_SFC_Model
 {
-    public class DateRow
+    public class DataRow
     {
         public static int id_DatensatzCounter = 0;
 
-        public DateRow(StagingObject _stagingObject, string quellDateiName, Quelltyp quelltyp)
+        public DataRow(StagingObject stagingObject, string quellDateiName, Quelltyp quelltyp)
         {
+            StagingObject = stagingObject;
             ID = System.Threading.Interlocked.Increment(ref id_DatensatzCounter) - 1;
-            stagingObject = _stagingObject;
             QuellDateiName = quellDateiName;
             Quelltyp = quelltyp;
-            SingleDatas = new List<DataCell>();
-            LogWriter.Log($"Neuen Datensatz für StagingObject \"{StagingObject}\" erstellt");
+            DataCells = new List<DataCell>();
+
+            LogWriter.Log($"In StagingObject \"{StagingObject.FileName}\" : New DataRow \"{ID}\"");
         }
 
-        public DateRow(int _id, StagingObject _stagingObject, string quellDateiName, Quelltyp quelltyp)
+        public DataRow(int id, StagingObject stagingObject, string quellDateiName, Quelltyp quelltyp)
         {
-            ID = _id;
-            stagingObject = _stagingObject;
+            StagingObject = stagingObject;
+            ID = id;
             QuellDateiName = quellDateiName;
             Quelltyp = quelltyp;
-            SingleDatas = new List<DataCell>();
+            DataCells = new List<DataCell>();
+
+            LogWriter.Log($"New DataRow \"{ID}\" in StagingObject \"{StagingObject.FileName}\"");
         }
 
         private StagingObject stagingObject;
@@ -55,11 +58,11 @@ namespace ETL_SFC_Model
             set { quelltyp = value; }
         }
 
-        private List<DataCell> singleDatas;
-        public List<DataCell> SingleDatas
+        private List<DataCell> dataCells;
+        public List<DataCell> DataCells
         {
-            get { return singleDatas; }
-            set { singleDatas = value; }
+            get { return dataCells; }
+            set { dataCells = value; }
         }
     }
 }

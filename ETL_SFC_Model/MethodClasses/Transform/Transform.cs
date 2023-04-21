@@ -13,26 +13,26 @@ namespace ETL_SFC_Model
             StagingObject TransformStObj = StagingArea.TransformStagingObject;
 
             StagingObject quellStObj = StagingArea.StagingObjects.Where(x => x.FileName == _quellStObj).First();
-            List<Attribut> quellAttribute = quellStObj.Attribute.Where(x => _quellAttribut.Contains(x.Name)).ToList();
-            Attribut zielAttribut = TransformStObj.Attribute.Where(x => x.Name == _zielAttribut).First();
+            List<Attribut> quellAttribute = quellStObj.Attributes.Where(x => _quellAttribut.Contains(x.Name)).ToList();
+            Attribut zielAttribut = TransformStObj.Attributes.Where(x => x.Name == _zielAttribut).First();
 
-            foreach (DateRow quelldatenSatz in quellStObj.Datensaetze)
+            foreach (DataRow quelldatenSatz in quellStObj.DataRows)
             {
-                List<DataCell> quellsingleDatas = quelldatenSatz.SingleDatas.Where(x => quellAttribute.Where(y => y.Name == x.Attribut.Name).Count() > 0).ToList();
+                List<DataCell> quellsingleDatas = quelldatenSatz.DataCells.Where(x => quellAttribute.Where(y => y.Name == x.Attribut.Name).Count() > 0).ToList();
                 string quellInhalt = Transform.Zusammenfuegen(quellsingleDatas);
 
-                DateRow TransformDatenSatz = TransformStObj.Datensaetze.Where(x => x.QuellDateiName == quelldatenSatz.QuellDateiName && x.ID == quelldatenSatz.ID).FirstOrDefault();
+                DataRow TransformDatenSatz = TransformStObj.DataRows.Where(x => x.QuellDateiName == quelldatenSatz.QuellDateiName && x.ID == quelldatenSatz.ID).FirstOrDefault();
                 if (TransformDatenSatz is null)
                 {
-                     DateRow newTransformDatensatz = new DateRow(quelldatenSatz.ID, TransformStObj, quelldatenSatz.QuellDateiName, quelldatenSatz.Quelltyp);
+                     DataRow newTransformDatensatz = new DataRow(quelldatenSatz.ID, TransformStObj, quelldatenSatz.QuellDateiName, quelldatenSatz.Quelltyp);
                      DataCell newTransformSingleData = new DataCell(newTransformDatensatz, zielAttribut, quellInhalt);
-                     newTransformDatensatz.SingleDatas.Add(newTransformSingleData);
-                     TransformStObj.Datensaetze.Add(newTransformDatensatz);
+                     newTransformDatensatz.DataCells.Add(newTransformSingleData);
+                     TransformStObj.DataRows.Add(newTransformDatensatz);
                 }
                 else
                 {
                      DataCell newTransformSingleData = new DataCell(TransformDatenSatz, zielAttribut, quellInhalt);
-                     TransformDatenSatz.SingleDatas.Add(newTransformSingleData);
+                     TransformDatenSatz.DataCells.Add(newTransformSingleData);
                 }
             }
             quellAttribute.ForEach(x => x.WurdeTransferiert = true);
@@ -75,23 +75,23 @@ namespace ETL_SFC_Model
 
         public static void CreateAttribut(string name, Enums.Datentyp datentyp)
         {
-            StagingObject TransformStObj = StagingArea.TransformStagingObject;
-            Attribut newAttribut = new Attribut(name, datentyp);
-            TransformStObj.Attribute.Add(newAttribut);
+            StagingObject transformStObj = StagingArea.TransformStagingObject;
+            Attribut newAttribut = new Attribut(transformStObj, name, datentyp);
+            transformStObj.Attributes.Add(newAttribut);
         }
 
         public static void DeleteAttribut(string attributsName)
         {
             StagingObject TransformStObj = StagingArea.TransformStagingObject;
-            Attribut selectedAttribut = TransformStObj.Attribute.Where(x => x.Name == attributsName).First();
+            Attribut selectedAttribut = TransformStObj.Attributes.Where(x => x.Name == attributsName).First();
             selectedAttribut.WurdeTransferiertVon.ForEach(x => x.WurdeTransferiert = false);
-            foreach (var datensatz in TransformStObj.Datensaetze)
+            foreach (var datensatz in TransformStObj.DataRows)
             {
-                DataCell singleData = datensatz.SingleDatas.Where(x => x.Attribut == selectedAttribut).First();
-                datensatz.SingleDatas.Remove(singleData);
+                DataCell singleData = datensatz.DataCells.Where(x => x.Attribut == selectedAttribut).First();
+                datensatz.DataCells.Remove(singleData);
             }
-            TransformStObj.Datensaetze.RemoveAll(x => x.SingleDatas.Count == 0);
-            TransformStObj.Attribute.Remove(selectedAttribut);
+            TransformStObj.DataRows.RemoveAll(x => x.DataCells.Count == 0);
+            TransformStObj.Attributes.Remove(selectedAttribut);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ETL_SFC_Model;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -17,6 +18,8 @@ namespace ETL_SFC_WindowsForms
             comboBox_Export.Items.Add("json");
             comboBox_Export.Items.Add("csv");
             comboBox_Export.Items.Add("xml");
+
+            Refresh();
         }
 
         private void button_Export_Click(object sender, EventArgs e)
@@ -38,13 +41,13 @@ namespace ETL_SFC_WindowsForms
             switch (comboBox_Export.SelectedItem)
             {
                 case "json":
-                    ETL_SFC_Model.JSON.CreateJSON(saveFileDialog1.FileName);
+                    JSON.CreateJSON(saveFileDialog1.FileName);
                     break;
                 case "csv":
-                    ETL_SFC_Model.CSV.CreateCSV(saveFileDialog1.FileName);
+                    CSV.CreateCSV(saveFileDialog1.FileName);
                     break;
                 case "xml":
-                    ETL_SFC_Model.XML.CreateXML(saveFileDialog1.FileName);
+                    XML.CreateXML(saveFileDialog1.FileName);
                     break;
                 default:
                     break;
@@ -57,6 +60,20 @@ namespace ETL_SFC_WindowsForms
                 path = path + item + "\\";
             }
             Process.Start("explorer.exe", path);
+        }
+
+        public override void Refresh()
+        {
+            base.Refresh();
+
+            // Erstellt eine Tabelle die im neu erstellten Reiter angedockt wird
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.ColumnHeaderSelect;
+
+            // Erstellt die Spalten und befüllt die Tabelle
+            DataGridViewHelper.UpdateData(dataGridView1, StagingArea.TransformStagingObject);
         }
     }
 }

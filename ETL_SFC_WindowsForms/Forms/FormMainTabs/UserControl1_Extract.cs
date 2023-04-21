@@ -126,7 +126,7 @@ namespace ETL_SFC_WindowsForms
         {
             StagingObject stagingObject = StagingArea.StagingObjects.Where(x => x.FileName == tabControl1.SelectedTab.Text).FirstOrDefault();
 
-            if (stagingObject.Attribute.Where(x => x.WurdeTransferiert == true).Count() >= 1)
+            if (stagingObject.Attributes.Where(x => x.WurdeTransferiert == true).Count() >= 1)
             {
                 MessageBox.Show("Von dieser Tabelle wurden bereits Daten transformiert.");
                 return;

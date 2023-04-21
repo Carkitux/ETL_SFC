@@ -17,15 +17,9 @@ namespace ETL_SFC_WindowsForms
             activeUserControl = new UserControl0_Start();
             activeUserControl.Dock = DockStyle.Fill;
             activeUserControl.Parent = panel1;
-            button1.BackColor = Color.LightGray;
         }
 
         private UserControl activeUserControl;
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            UserControlSwitch(new UserControl0_Start(), (Button)sender);
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -49,16 +43,24 @@ namespace ETL_SFC_WindowsForms
 
         private void UserControlSwitch(UserControl newUserConrol, Button currentButton)
         {
-            activeUserControl?.Dispose();
-            activeUserControl = newUserConrol;
-            activeUserControl.Dock = DockStyle.Fill;
-            activeUserControl.Parent = panel1;
-            button1.BackColor = Color.Silver;
             button2.BackColor = Color.Silver;
             button3.BackColor = Color.Silver;
             button4.BackColor = Color.Silver;
             button5.BackColor = Color.Silver;
-            currentButton.BackColor = Color.LightGray;
+
+            if (activeUserControl.Name == newUserConrol.Name)
+            {
+                newUserConrol = new UserControl0_Start();
+            }
+            else
+            {
+                currentButton.BackColor = Color.LightGray;
+            }
+
+            activeUserControl?.Dispose();
+            activeUserControl = newUserConrol;
+            activeUserControl.Dock = DockStyle.Fill;
+            activeUserControl.Parent = panel1;
         }
     }
 }

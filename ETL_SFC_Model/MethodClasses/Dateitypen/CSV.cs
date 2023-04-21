@@ -15,7 +15,7 @@ namespace ETL_SFC_Model
     {
         public static void LoadFromCSV(string path, string separator, bool hasHeader)
         {
-            LogWriter.Log($"Step Extract - Startet Export CSV: \"{path}\"");
+            LogWriter.LogHeader($"Step Extract - Startet Export CSV: \"{path}\"");
 
             // Liest alle Zeilen der CSV Datei in einen String ein
             var lines = File.ReadLines(path);
@@ -70,8 +70,8 @@ namespace ETL_SFC_Model
                 attribute = lines.First().Replace(separator + " ", separator).Split(separator);
                 foreach (string attribut in attribute)
                 {
-                    Attribut newAttribut = new Attribut(attribut, Enums.Datentyp.Unbekannt);
-                    stagingObject.Attribute.Add(newAttribut);
+                    Attribut newAttribut = new Attribut(stagingObject, attribut, Enums.Datentyp.Unbekannt);
+                    stagingObject.Attributes.Add(newAttribut);
                 }
             }
             // Wenn die CSV Datei keine Header hat, wird für jede Spalte ein Ersatz Attribut erzeugt mit hochzählenden Spaltennamen
@@ -81,8 +81,8 @@ namespace ETL_SFC_Model
                 int count = lines.First().Replace(separator + " ", separator).Split(separator).Count();
                 for (int i = 0; i < count; i++)
                 {
-                    Attribut newAttribut = new Attribut($"Spalte{i}", Enums.Datentyp.Unbekannt);
-                    stagingObject.Attribute.Add(newAttribut);
+                    Attribut newAttribut = new Attribut(stagingObject, $"Spalte{i}", Enums.Datentyp.Unbekannt);
+                    stagingObject.Attributes.Add(newAttribut);
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace ETL_SFC_Model
             foreach (var line in lines)
             {
                 // Erstellen eines neuen Datensatzes für jede Zeile der CSV
-                DateRow datensatz = new DateRow(stagingObject, dateiname, Enums.Quelltyp.CSV);
+                DataRow datensatz = new DataRow(stagingObject, dateiname, Enums.Quelltyp.CSV);
 
                 // Splittet die Zeile nach dem übergeben Seperator in einzelne Felder zum einfügen in SingleData
                 string[] fields = line.Replace(separator + " ", separator).Split(separator);
@@ -109,21 +109,21 @@ namespace ETL_SFC_Model
 
                     // Wenn die CSV Header hat, dann wird die SingleData mit dem vorher erstellten Attribut hinterlegt
                     // sonst wird es Ohne Attributskennung erstellt
-                    if (hasHeader)
-                    {
-                        singleData = new DataCell(datensatz, stagingObject.Attribute[currentFieldID], field);
-                    }
-                    else
-                    {
-                        singleData = new DataCell(datensatz, null, field);
-                    }
+                    //if (hasHeader)
+                    //{
+                        singleData = new DataCell(datensatz, stagingObject.Attributes[currentFieldID], field);
+                    //}
+                    //else
+                    //{
+                    //    singleData = new DataCell(datensatz, null, field);
+                    //}
                     // Fügt das erstellte SingleData dem Datensatz hinzu
-                    datensatz.SingleDatas.Add(singleData);
+                    datensatz.DataCells.Add(singleData);
 
                     currentFieldID++;
                 }
                 // Fügt den Datensatz dem aktuellem Staging Objekt hinzu
-                stagingObject.Datensaetze.Add(datensatz);
+                stagingObject.DataRows.Add(datensatz);
             }
         }
 
@@ -134,13 +134,13 @@ namespace ETL_SFC_Model
 
             // Schreiben des CSV Headers mit Semikolon Seperator
             using var writer = new StreamWriter(path);
-            writer.WriteLine(string.Join(';', stagingObject.Attribute));
+            writer.WriteLine(string.Join(';', stagingObject.Attributes));
 
-            foreach (var datensatz in stagingObject.Datensaetze)
+            foreach (var datensatz in stagingObject.DataRows)
             {
                 // Für jedes SingleData Objekt wird nur der Inhalt in ein Array geschrieben
                 // und dieser wird dann Zeile für Zeile in die Datei geschrieben
-                var csvDatensatz = datensatz.SingleDatas.Select(singleData => singleData.Inhalt).ToArray();
+                var csvDatensatz = datensatz.DataCells.Select(singleData => singleData.Inhalt).ToArray();
                 writer.WriteLine(string.Join(';', csvDatensatz));
             }
         }
