@@ -30,13 +30,13 @@
         {
             this.button2 = new System.Windows.Forms.Button();
             this.button_SpalteLoeschen = new System.Windows.Forms.Button();
-            this.button_SpalteHinzufuegen = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonColumnMenu = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -73,21 +73,6 @@
             this.button_SpalteLoeschen.UseVisualStyleBackColor = false;
             this.button_SpalteLoeschen.Click += new System.EventHandler(this.button_SpalteLoeschen_Click);
             // 
-            // button_SpalteHinzufuegen
-            // 
-            this.button_SpalteHinzufuegen.BackColor = System.Drawing.Color.LightGray;
-            this.button_SpalteHinzufuegen.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_SpalteHinzufuegen.FlatAppearance.BorderSize = 0;
-            this.button_SpalteHinzufuegen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_SpalteHinzufuegen.Font = new System.Drawing.Font("Eras Demi ITC", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button_SpalteHinzufuegen.Location = new System.Drawing.Point(0, 0);
-            this.button_SpalteHinzufuegen.Name = "button_SpalteHinzufuegen";
-            this.button_SpalteHinzufuegen.Size = new System.Drawing.Size(127, 49);
-            this.button_SpalteHinzufuegen.TabIndex = 0;
-            this.button_SpalteHinzufuegen.Text = "Spalte Hinzufügen";
-            this.button_SpalteHinzufuegen.UseVisualStyleBackColor = false;
-            this.button_SpalteHinzufuegen.Click += new System.EventHandler(this.button_SpalteHinzufuegen_Click);
-            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToOrderColumns = true;
@@ -104,12 +89,27 @@
             this.panel1.BackColor = System.Drawing.Color.LightGray;
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button_SpalteLoeschen);
-            this.panel1.Controls.Add(this.button_SpalteHinzufuegen);
+            this.panel1.Controls.Add(this.buttonColumnMenu);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 49);
             this.panel1.TabIndex = 1;
+            // 
+            // buttonColumnMenu
+            // 
+            this.buttonColumnMenu.BackColor = System.Drawing.Color.LightGray;
+            this.buttonColumnMenu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.buttonColumnMenu.FlatAppearance.BorderSize = 0;
+            this.buttonColumnMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColumnMenu.Font = new System.Drawing.Font("Eras Demi ITC", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonColumnMenu.Location = new System.Drawing.Point(0, 0);
+            this.buttonColumnMenu.Name = "buttonColumnMenu";
+            this.buttonColumnMenu.Size = new System.Drawing.Size(127, 49);
+            this.buttonColumnMenu.TabIndex = 3;
+            this.buttonColumnMenu.Text = "Spalten\r\nMenü";
+            this.buttonColumnMenu.UseVisualStyleBackColor = false;
+            this.buttonColumnMenu.Click += new System.EventHandler(this.buttonColumnMenu_Click);
             // 
             // panel2
             // 
@@ -120,6 +120,14 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(673, 502);
             this.panel2.TabIndex = 2;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 480);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(673, 22);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // panel3
             // 
@@ -136,14 +144,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(127, 502);
             this.panel4.TabIndex = 4;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 480);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(673, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
             // 
             // UserControl2_Transform
             // 
@@ -166,12 +166,12 @@
         #endregion
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button_SpalteLoeschen;
-        private System.Windows.Forms.Button button_SpalteHinzufuegen;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button buttonColumnMenu;
     }
 }

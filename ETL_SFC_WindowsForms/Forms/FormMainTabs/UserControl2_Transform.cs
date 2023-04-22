@@ -22,21 +22,7 @@ namespace ETL_SFC_WindowsForms
             panel3.Visible = false;
         }
 
-        private void button_SpalteHinzufuegen_Click(object sender, EventArgs e)
-        {
-            panel3.Visible = true;
-            using (var form3 = new FormDialog_SpalteHinzufuegen())
-            {
-                if (form3.ShowDialog(this) == DialogResult.OK)
-                {
-                    dataGridUpdate();
-                }
-                else
-                {
-
-                }
-            }
-        }
+        private UserControl activeMenuUserControl;
 
         private void button_SpalteLoeschen_Click(object sender, EventArgs e)
         {
@@ -98,6 +84,33 @@ namespace ETL_SFC_WindowsForms
                     i++;
                 }
                 dataGridView1.Rows.Add(dataRow);
+            }
+        }
+
+        private void buttonColumnMenu_Click(object sender, EventArgs e)
+        {
+            MenuUserControlSwitch(new UserControl2Transform_Menu1Columns(dataGridView1, panel4), (Button)sender);
+        }
+
+        private void MenuUserControlSwitch(UserControl newUserConrol, Button currentButton)
+        {
+            buttonColumnMenu.BackColor = Color.LightGray;
+
+            if (activeMenuUserControl?.Name == newUserConrol.Name)
+            {
+                newUserConrol.Dispose();
+                activeMenuUserControl.Dispose();
+                activeMenuUserControl = null;
+                panel3.Visible = false;
+            }
+            else
+            {
+                currentButton.BackColor = Color.WhiteSmoke;
+                activeMenuUserControl?.Dispose();
+                activeMenuUserControl = newUserConrol;
+                activeMenuUserControl.Dock = DockStyle.Fill;
+                activeMenuUserControl.Parent = panel3;
+                panel3.Visible = true;
             }
         }
     }
