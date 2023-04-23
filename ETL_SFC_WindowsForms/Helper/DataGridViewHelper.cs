@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ETL_SFC_WindowsForms
+namespace BKT.ITT421.LF08.SteveFinnCarsten.ETL.UI.WindowsForms.Helper
 {
     public class DataGridViewHelper
     {
@@ -38,7 +38,7 @@ namespace ETL_SFC_WindowsForms
                 dataGridView.Rows.Add(dataRow);
             }
 
-            dataGridView.AutoSizeColumnsMode= DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ETL_SFC_WindowsForms.Properties {
+namespace BKT.ITT421.LF08.SRFPCL.ETL.UI.WindowsForms.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ETL_SFC_WindowsForms.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ETL_SFC_WindowsForms.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BKT.ITT421.LF08.SRFPCL.ETL.UI.WindowsForms.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
